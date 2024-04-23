@@ -98,4 +98,32 @@ router.post('/forgotPassword', (req, res) => {
     })
 })
 
+router.get('/get', (req, res) => {
+    var query = "select employee_id, employee_name, employee_phone, salary, join_date, email, status where role = 'employee'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            return res.status(200).json(results);
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.patch('/update', (req, res) => {
+    let employee = req.body;
+    var query = "update employee set status =? where id=?";
+    connection.query(query, [employee.status, employee.employee_id], (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(404).json({ message: "Employee ID does not exist" });
+            }
+            return res.status(200).json({ message: "Employee Updated Successfully" })
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
 module.exports = router;
