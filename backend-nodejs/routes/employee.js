@@ -5,6 +5,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+var auth = require('../services/authentication');
+var checkRole = require('../services/checkRole');
 
 router.post('/signup', (req, res) => {
     let employee = req.body;
@@ -98,7 +100,7 @@ router.post('/forgotPassword', (req, res) => {
     })
 })
 
-router.get('/get', (req, res) => {
+router.get('/get', auth.authenticateToken, checkRole.checkRole, (req, res) => {
     var query = "select employee_id, employee_name, employee_phone, salary, join_year, email, status from employee where role = 'employee'";
     connection.query(query, (err, results) => {
         if (!err) {
@@ -110,9 +112,9 @@ router.get('/get', (req, res) => {
     })
 })
 
-router.patch('/update', (req, res) => {
+router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) => {
     let employee = req.body;
-    var query = "update employee set status =? where id=?";
+    var query = "update employee set status =? where employee_id=?";
     connection.query(query, [employee.status, employee.employee_id], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {
@@ -126,6 +128,38 @@ router.patch('/update', (req, res) => {
     })
 })
 
+router.get('/checkToken', auth.authenticateToken, (req, res) => {
+    return res.status(200).json({ message: "true" });
+})
 
+router.post('/changePassword', auth.authenticateToken, (req, res) => {
+    const employee = req.body;
+    const email = res.locals.email;
+    var query = "select * from employee where email=? and password =?";
+    connection.query(query, [email, employee.oldPassword], (err, results) => {
+        if (!err) {
+            if (results.length <= 0) {
+                return res.status(400).json({ message: "Incorrect Old Password" });
+            }
+            else if (results[0].password == employee.oldPassword) {
+                query = "update employee set password =? where email =?";
+                connection.query(query, [employee.newPassword, email], (err, results) => {
+                    if (!err) {
+                        return res.status(200).json({ message: "Password Updated Successfully!" })
+                    }
+                    else {
+                        return res.status(500).json(err);
+                    }
+                })
+            }
+            else {
+                return res.status(400).json({ message: "Something went wrong. Please try again later!" })
+            }
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
+})
 
 module.exports = router;
