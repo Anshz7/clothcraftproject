@@ -99,7 +99,7 @@ router.post('/forgotPassword', (req, res) => {
 })
 
 router.get('/get', (req, res) => {
-    var query = "select employee_id, employee_name, employee_phone, salary, join_date, email, status where role = 'employee'";
+    var query = "select employee_id, employee_name, employee_phone, salary, join_year, email, status from employee where role = 'employee'";
     connection.query(query, (err, results) => {
         if (!err) {
             return res.status(200).json(results);
@@ -125,5 +125,7 @@ router.patch('/update', (req, res) => {
         }
     })
 })
+
+
 
 module.exports = router;
