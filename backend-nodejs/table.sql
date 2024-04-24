@@ -18,3 +18,10 @@ CREATE TABLE category(
     category_name varchar(50) NOT NULL,
     PRIMARY KEY(category_id)
 );
+
+CREATE TABLE customer(
+    customer_id int NOT NULL AUTO_INCREMENT,
+    customer_name varchar(50) NOT NULL,
+    customer_phone varchar(10) NOT NULL,
+    PRIMARY KEY(customer_id)
+);
