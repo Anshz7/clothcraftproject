@@ -12,3 +12,9 @@ CREATE TABLE employee (
 );
 
 insert into employee(employee_name, employee_phone, salary, join_year, email, password, status, role) values('Admin', '1234567890', '-', '-', 'clothkraft@gmail.com', 'ClothCraft123','true', 'admin');
+
+CREATE TABLE category(
+    category_id int NOT NULL AUTO_INCREMENT,
+    category_name varchar(50) NOT NULL,
+    PRIMARY KEY(category_id)
+);
