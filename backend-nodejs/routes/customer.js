@@ -9,7 +9,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res, next
     query = "insert into customer(customer_name, customer_phone) values (?, ?)";
     connection.query(query, [customer.customer_name, customer.customer_phone], (err, results) => {
         if (!err) {
-            return res.status(200).json({ message: "customer added successfully" });
+            return res.status(200).json({ message: "Customer added Successfully" });
         }
         else {
             return res.status(500).json(err);

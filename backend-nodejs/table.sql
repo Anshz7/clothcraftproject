@@ -25,3 +25,13 @@ CREATE TABLE customer(
     customer_phone varchar(10) NOT NULL,
     PRIMARY KEY(customer_id)
 );
+
+CREATE TABLE product(
+    product_id int NOT NULL AUTO_INCREMENT,
+    product_name varchar(50) NOT NULL,
+    price integer,
+    quantity integer,
+    category_id integer NOT NULL,
+    status varchar(20),
+    primary key(product_id)
+);
