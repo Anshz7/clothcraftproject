@@ -35,3 +35,14 @@ CREATE TABLE product(
     status varchar(20),
     primary key(product_id)
 );
+
+CREATE TABLE sale(
+    sale_id int NOT NULL AUTO_INCREMENT,
+    uuid varchar(200) NOT NULL,
+    customer_id int NOT NULL,
+    employee_id int NOT NULL,
+    productDetails JSON DEFAULT NULL,
+    date_time DATETIME NOT NULL,
+    amount int NOT NULL,
+    PRIMARY KEY(sale_id)
+);

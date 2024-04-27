@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <style>
+            table{
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td,th{
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+        </style>
+    <head>
+
+    <body>
+        <h3 style="text-align: center;">Cloth Craft Smart Retail System</h3>
+        <table>
+            <tr>
+                <th>Customer Name: <%= customerName %></th>
+                <th>Phone Number: <%= customerPhone %></th>
+            </tr>
+            <tr>
+                <th>Employee Name: <%= employeeName %></th>
+                <th>Order Date Time: <%= orderDateTime %></th>
+            </tr>
+        </table>
+
+        <h3>Product Details</h3>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Sub total</th>
+            </tr>
+            <% if(productDetails.length > 0) { %>
+                <% productDetails.forEach(product =>{ %>
+                    <tr>
+                        <td><%= product.product_name %></td>
+                        <td><%= product.Category_name %></td>
+                        <td><%= product.quantity %></td>
+                        <td><%= product.price %></td>
+                        <td><%= product.total %></td>
+                    </tr>
+                    <%});%>
+                    <%}%>
+        </table>
+        <h3>Total: <%= totalAmount %></h3>
+        <h3>Thank you for visiting</h3>
+
+    </body>
+</html>
