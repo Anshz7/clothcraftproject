@@ -19,12 +19,12 @@
         <h3 style="text-align: center;">Cloth Craft Smart Retail System</h3>
         <table>
             <tr>
-                <th>Customer Name: <%= customerName %></th>
-                <th>Phone Number: <%= customerPhone %></th>
+                <th>Customer Name: <%= name %></th>
+                <th>Email: <%= email %></th>
             </tr>
             <tr>
-                <th>Employee Name: <%= employeeName %></th>
-                <th>Order Date Time: <%= orderDateTime %></th>
+                <th>Contact Number: <%= contactNumber %></th>
+                <th>Payment Method: <%= paymentMethod %></th>
             </tr>
         </table>
 
@@ -35,7 +35,7 @@
                 <th>Category</th>
                 <th>Quantity</th>
                 <th>Price</th>
-                <th>Sub total</th>
+                <th>Sub Total</th>
             </tr>
             <% if(productDetails.length > 0) { %>
                 <% productDetails.forEach(product =>{ %>
@@ -50,7 +50,7 @@
                     <%}%>
         </table>
         <h3>Total: <%= totalAmount %></h3>
-        <h3>Thank you for visiting</h3>
+        <h3>Thank you for the Purchase</h3>
 
     </body>
 </html>
