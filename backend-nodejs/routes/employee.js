@@ -15,7 +15,7 @@ router.post('/signup', (req, res) => {
         if (!err) {
             if (results.length <= 0) {
                 query = "insert into employee(employee_name, employee_phone, salary, join_year, email, password, status, role) values(?, ?, ?, ?, ?, ?,'false', 'employee')";
-                connection.query(query, [employee.employee_name, employee.employee_phone, employee.salary, employee.join_date, employee.email, employee.password], (err, results) => {
+                connection.query(query, [employee.employee_name, employee.employee_phone, employee.salary, employee.join_year, employee.email, employee.password], (err, results) => {
                     if (!err) {
                         return res.status(200).json({ message: "successfully regestered" });
                     }
