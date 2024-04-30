@@ -8,12 +8,19 @@ import { environment } from '../../environments/environment';
 export class UserService {
   url = environment.apiUrl;
 
-  constructor(private HttpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   signup(data: any) {
-    return this.HttpClient.post(this.url +
+    return this.httpClient.post(this.url +
       "/employee/signup", data, {
       headers: new HttpHeaders().set('Content-Type', "application/json")
     });
+  }
+
+  forgotPassword(data: any) {
+    return this.httpClient.post(this.url +
+      "/employee/forgotPassword/", data, {
+      headers: new HttpHeaders().set('Content-Type', "application/json")
+    })
   }
 }
