@@ -1,0 +1,62 @@
+<body>
+    <mat-card>
+      <b><span>Dashboard</span></b>
+    </mat-card>
+    <br />
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <div class="container">
+            <h2 class="title">Total Category:</h2>
+            <h1 class="title">{{ data?.categoryCount }}</h1>
+            <p>
+              <button class="button" [routerLink]="['/home/category']">
+                View Categories
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="column">
+          <div class="card">
+            <div class="container">
+              <h2 class="title">Total Products:</h2>
+              <h1 class="title">{{ data?.product }}</h1>
+              <p>
+                <button class="button" [routerLink]="['/home/product']">
+                  View Products
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="column">
+          <div class="card">
+            <div class="container">
+              <h2 class="title">Total sales:</h2>
+              <h1 class="title">{{ data?.sale }}</h1>
+              <p>
+                <button class="button" [routerLink]="['/home/sale']">
+                  View sales
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+            <div class="card">
+              <div class="container">
+                <h2 class="title">Total Customer:</h2>
+                <h1 class="title">{{ data?.customer }}</h1>
+                <p>
+                  <button class="button" [routerLink]="['/home/sale']">
+                    View Customers
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+    </div>
+  </body>
