@@ -17,6 +17,6 @@ app.use('/category', categoryRoute);
 app.use('/customer', customerRoute);
 app.use('/product', productRoute);
 app.use('/sale', saleRoute);
-app.use('/dashboard', dashboardRout);
+app.use('/dashboard', dashboardRoute);
 
 module.exports = app;
