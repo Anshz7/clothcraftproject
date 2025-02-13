@@ -50,21 +50,21 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-teal-100 to-blue-200 dark:from-gray-800 dark:to-gray-900">
-      <div className="bg-white dark:bg-gray-700 p-10 rounded-lg shadow-lg text-center">
+    <div className="min-h-screen bg-gradient-to-r from-bouquet-50 via-bouquet-200 to-bouquet-400 dark:from-bouquet-900 dark:via-bouquet-800 dark:to-bouquet-950 flex items-center justify-center">
+      <div className="bg-white dark:bg-bouquet-950 p-10 rounded-lg shadow-lg text-center">
         {role === "admin" && (
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <h1 className="text-2xl font-bold text-center text-bouquet-800 dark:text-bouquet-100 mb-6">
             Welcome to Dashboard, Admin
           </h1>
         )}
         {role === "employee" && (
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <h1 className="text-2xl font-bold text-center text-bouquet-800 dark:text-bouquet-100 mb-6">
             Welcome to Dashboard, Employee
           </h1>
         )}
         <button
           onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-lg font-medium transition"
+          className="w-full bg-gradient-to-r from-bouquet-500 to-bouquet-700 dark:from-bouquet-200 dark:to-bouquet-600 text-white dark:text-bouquet-900 py-3 rounded-lg font-medium hover:opacity-90 transition"
         >
           Logout
         </button>

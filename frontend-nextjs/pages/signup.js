@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSun,
+  faMoon,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function SignupPage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -60,7 +64,7 @@ export default function SignupPage() {
         }),
       });
       if (response.ok) {
-        setShowModal(true); // Show the success modal
+        setShowModal(true);
       } else {
         const data = await response.json();
         setError(data.message || "Signup failed.");
@@ -71,10 +75,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-teal-100 via-blue-100 to-purple-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r from-bouquet-50 via-bouquet-200 to-bouquet-400 dark:from-bouquet-900 dark:via-bouquet-800 dark:to-bouquet-950 flex items-center justify-center">
       <button
         onClick={() => setIsDarkMode(!isDarkMode)}
-        className="absolute top-6 right-10 text-gray-800 dark:text-gray-100 text-2xl focus:outline-none"
+        className="absolute top-6 right-10 text-bouquet-800 dark:text-bouquet-50 text-2xl focus:outline-none"
       >
         {isDarkMode ? (
           <FontAwesomeIcon icon={faSun} />
@@ -82,16 +86,16 @@ export default function SignupPage() {
           <FontAwesomeIcon icon={faMoon} />
         )}
       </button>
-      <div className="bg-white dark:bg-gray-700 rounded-2xl shadow-lg p-8 max-w-lg w-full">
-        <h1 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
+      <div className="bg-white dark:bg-bouquet-700 rounded-2xl shadow-lg p-8 max-w-lg w-full">
+        <h1 className="text-2xl font-bold text-center text-bouquet-800 dark:text-bouquet-100 mb-6">
           Sign up to ClothKraft
         </h1>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {error && <p className="text-bouquet-800 dark:text-bouquet-200 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="employee_name"
-              className="block text-gray-600 dark:text-gray-300 font-medium mb-1"
+              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
             >
               Full Name
             </label>
@@ -102,14 +106,14 @@ export default function SignupPage() {
               placeholder="Enter your full name"
               value={formData.employee_name}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200 dark:focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
+              className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
               required
             />
           </div>
           <div className="mb-4">
             <label
               htmlFor="employee_phone"
-              className="block text-gray-600 dark:text-gray-300 font-medium mb-1"
+              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
             >
               Phone Number
             </label>
@@ -120,14 +124,14 @@ export default function SignupPage() {
               placeholder="Enter your phone number"
               value={formData.employee_phone}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200 dark:focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
+              className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
               required
             />
           </div>
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-gray-600 dark:text-gray-300 font-medium mb-1"
+              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
             >
               Email
             </label>
@@ -138,101 +142,81 @@ export default function SignupPage() {
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200 dark:focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
+              className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
               required
             />
           </div>
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-gray-600 dark:text-gray-300 font-medium mb-1"
+              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
             >
               Password
             </label>
             <div className="relative">
               <input
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200 dark:focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
+                className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-300"
+                className="absolute inset-y-0 right-2 flex items-center text-bouquet-600 dark:text-bouquet-400"
               >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
             </div>
           </div>
-
           <div className="mb-4">
             <label
-              htmlFor="password"
-              className="block text-gray-600 dark:text-gray-300 font-medium mb-1"
+              htmlFor="confirmPassword"
+              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
             >
-              Password
+              Confirm Password
             </label>
             <div className="relative">
               <input
-                id="password"
+                id="confirmPassword"
+                name="confirmPassword"
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200 dark:focus:ring-blue-500 outline-none bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
+                className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-300"
+                className="absolute inset-y-0 right-2 flex items-center text-bouquet-600 dark:text-bouquet-400"
               >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
             </div>
           </div>
-
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-teal-400 to-blue-500 dark:from-teal-600 dark:to-blue-700 text-white py-3 rounded-lg font-medium hover:opacity-90 transition"
+            className="w-full bg-gradient-to-r from-bouquet-500 to-bouquet-700 dark:from-bouquet-200 dark:to-bouquet-600 text-white dark:text-bouquet-900 py-3 rounded-lg font-medium hover:opacity-90 transition"
           >
             Sign Up
           </button>
         </form>
-        <p className="text-center text-gray-600 dark:text-gray-400 mt-4 text-sm">
+        <p className="text-center text-bouquet-700 dark:text-bouquet-200 mt-4 text-sm">
           Already have an account?{" "}
           <a
             href="/"
-            className="text-blue-500 dark:text-blue-400 hover:underline"
+            className="text-bouquet-500 dark:text-bouquet-400 hover:underline"
           >
             Login
           </a>
         </p>
       </div>
-
-      {/* Success Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg text-center">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-              Signup Successful!
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              You have successfully signed up.
-            </p>
-            <button
-              onClick={() => router.push("/")}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium"
-            >
-              Go to Login
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
