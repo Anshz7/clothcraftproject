@@ -63,10 +63,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-bouquet-50 via-bouquet-200 to-bouquet-400 dark:from-bouquet-900 dark:via-bouquet-800 dark:to-bouquet-950 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 flex items-center justify-center">
       <button
         onClick={() => setIsDarkMode(!isDarkMode)}
-        className="absolute top-6 right-10 text-bouquet-800 dark:text-bouquet-50 text-2xl focus:outline-none"
+        className="absolute top-6 right-10 text-gray-800 dark:text-gray-50 text-2xl focus:outline-none"
       >
         {isDarkMode ? (
           <FontAwesomeIcon icon={faSun} />
@@ -74,15 +74,15 @@ export default function LoginPage() {
           <FontAwesomeIcon icon={faMoon} />
         )}
       </button>
-      <div className="bg-white dark:bg-bouquet-700 rounded-2xl shadow-lg p-8 max-w-lg w-full">
-        <h1 className="text-2xl font-bold text-center text-bouquet-800 dark:text-bouquet-100 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 max-w-lg w-full">
+        <h1 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
           Welcome to ClothKraft
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
+              className="block text-gray-700 dark:text-gray-200 font-medium mb-1"
             >
               Email
             </label>
@@ -93,13 +93,13 @@ export default function LoginPage() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
+              className="w-full p-3 border rounded-lg focus:ring focus:ring-purple-400 dark:focus:ring-purple-600 outline-none bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             />
           </div>
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-bouquet-700 dark:text-bouquet-200 font-medium mb-1"
+              className="block text-gray-700 dark:text-gray-200 font-medium mb-1"
             >
               Password
             </label>
@@ -111,54 +111,57 @@ export default function LoginPage() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border rounded-lg focus:ring focus:ring-bouquet-400 dark:focus:ring-bouquet-600 outline-none bg-bouquet-50 dark:bg-bouquet-200 text-bouquet-800"
+                className="w-full p-3 border rounded-lg focus:ring focus:ring-purple-400 dark:focus:ring-purple-600 outline-none bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-2 flex items-center text-bouquet-600 dark:text-bouquet-400"
+                className="absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-400"
               >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
             </div>
-            <p className="text-bouquet-700 dark:text-bouquet-200 mt-4 text-sm">
+            <p className="text-gray-700 dark:text-gray-200 mt-4 text-sm">
               Forgot Password?{" "}
               <a
                 href="/forgotPassword"
-                className="text-bouquet-500 dark:text-bouquet-400 hover:underline"
+                className="text-purple-500 dark:text-purple-400 hover:underline"
               >
                 Click Here
               </a>
             </p>
           </div>
 
-          {error && <p className="text-bouquet-800 dark:text-bouquet-200 text-sm mb-4">{error}</p>}
+          {error && (
+            <p className="text-red-600 dark:text-red-400 text-sm mb-4">
+              {error}
+            </p>
+          )}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-bouquet-500 to-bouquet-700 dark:from-bouquet-200 dark:to-bouquet-600 text-white dark:text-bouquet-900 py-3 rounded-lg font-medium hover:opacity-90 transition"
+            className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 dark:from-purple-400 dark:to-indigo-400 text-white py-3 rounded-lg font-medium hover:opacity-90 transition"
           >
             Continue
           </button>
         </form>
-        <p className="text-center text-bouquet-700 dark:text-bouquet-200 mt-4 text-sm">
+        <p className="text-center text-gray-700 dark:text-gray-200 mt-4 text-sm">
           Don't have an account?{" "}
           <a
             href="/signup"
-            className="text-bouquet-500 dark:text-bouquet-400 hover:underline"
+            className="text-purple-500 dark:text-purple-400 hover:underline"
           >
             Sign up
           </a>
         </p>
       </div>
 
-      {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white dark:bg-bouquet-800 p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-xl font-semibold text-bouquet-800 dark:text-bouquet-100 mb-4">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
               Login Successful!
             </h2>
-            <p className="text-bouquet-700 dark:text-bouquet-400">
+            <p className="text-gray-700 dark:text-gray-400">
               Redirecting to dashboard...
             </p>
           </div>
