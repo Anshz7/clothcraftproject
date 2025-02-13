@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 
 export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
+  const [role, setRole] = useState(null); // New state for role
   const router = useRouter();
 
   useEffect(() => {
@@ -19,12 +20,15 @@ export default function Dashboard() {
       },
     })
       .then((response) => response.json())
-      .then((data) => setDashboardData(data))
+      .then((data) => {
+        setDashboardData(data);
+        setRole(data.role); // Set the role from the API response
+      })
       .catch((error) => console.error("Error fetching dashboard data:", error));
   }, [router]);
 
   return (
-    <Layout>
+    <Layout role={role}>
       <div className="min-h-screen bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 flex flex-col items-center py-10">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-8">
           Dashboard

@@ -1,14 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSun, faMoon, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faSun,
+  faMoon,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from "./ThemeContext";
 
-export default function Layout({ children, role }) {
+export default function Layout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [role, setRole] = useState(null);
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const payloadBase64 = token.split(".")[1]; // Extract the payload
+        const decodedPayload = atob(payloadBase64); // Decode Base64
+        const payload = JSON.parse(decodedPayload); // Parse the JSON
+        setRole(payload.role); // Set the role
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -49,7 +69,9 @@ export default function Layout({ children, role }) {
                 key={link.name}
                 onClick={() => router.push(link.path)}
                 className={`text-left w-full px-4 py-2 rounded-lg text-gray-900 dark:text-gray-200 hover:bg-purple-200 dark:hover:bg-purple-400 transition ${
-                  router.pathname === link.path ? "bg-purple-300 dark:bg-purple-500" : ""
+                  router.pathname === link.path
+                    ? "bg-purple-300 dark:bg-purple-500"
+                    : ""
                 }`}
               >
                 {link.name}
@@ -60,7 +82,9 @@ export default function Layout({ children, role }) {
       )}
 
       {/* Main Content */}
-      <div className={`flex-1 ${isSidebarOpen ? "ml-64" : "ml-0"} transition-all`}>
+      <div
+        className={`flex-1 ${isSidebarOpen ? "ml-64" : "ml-0"} transition-all`}
+      >
         {/* Navbar */}
         <div className="flex items-center justify-between bg-white dark:bg-gray-700 p-4 shadow-lg">
           {/* Sidebar Toggle */}
