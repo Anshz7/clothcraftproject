@@ -133,33 +133,66 @@ router.get("/get", auth.authenticateToken, checkRole.checkRole, (req, res) => {
   });
 });
 
+router.delete(
+  "/delete",
+  auth.authenticateToken,
+  checkRole.checkRole,
+  (req, res) => {
+    let employee = req.body;
+    var query = "delete from employee where employee_id = ?";
+    connection.query(query, [employee.employee_id], (err, results) => {
+      if (!err) {
+        return res.status(200).json(results);
+      } else {
+        return res.status(500).json(err);
+      }
+    });
+  }
+);
+
 router.patch(
   "/update",
   auth.authenticateToken,
   checkRole.checkRole,
   (req, res) => {
     let employee = req.body;
-    var query = "update employee set status =? where employee_id=?";
-    connection.query(
-      query,
-      [employee.status, employee.employee_id],
-      (err, results) => {
-        if (!err) {
-          if (results.affectedRows == 0) {
-            return res
-              .status(404)
-              .json({ message: "Employee ID does not exist" });
-          }
-          return res
-            .status(200)
-            .json({ message: "Employee Updated Successfully" });
-        } else {
-          return res.status(500).json(err);
+    let updates = [];
+    let values = [];
+
+    if (employee.status !== undefined) {
+      updates.push("status = ?");
+      values.push(employee.status);
+    }
+    if (employee.employee_name !== undefined) {
+      updates.push("employee_name = ?");
+      values.push(employee.employee_name);
+    }
+    if (employee.salary !== undefined) {
+      updates.push("salary = ?");
+      values.push(employee.salary);
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ message: "No valid fields to update" });
+    }
+
+    values.push(employee.employee_id);
+    let query = `UPDATE employee SET ${updates.join(", ")} WHERE employee_id = ?`;
+
+    connection.query(query, values, (err, results) => {
+      if (!err) {
+        if (results.affectedRows == 0) {
+          return res.status(404).json({ message: "Employee ID does not exist" });
         }
+        return res.status(200).json({ message: "Employee Updated Successfully" });
+      } else {
+        return res.status(500).json(err);
       }
-    );
+    });
   }
 );
+
+
 
 router.get("/checkToken", auth.authenticateToken, (req, res) => {
   return res.status(200).json({ message: "true" });
