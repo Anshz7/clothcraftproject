@@ -54,7 +54,7 @@ export default function Dashboard() {
 
   return (
     <Layout role={role}>
-      <div className="min-h-screen bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 flex flex-col items-center py-10 px-4">
+      <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col items-center py-10 px-4">
         <div className="w-full max-w-5xl flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
             Dashboard

@@ -76,20 +76,22 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, 
 })
 
 router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
-    let product = req.body;
-    var query = "delete from product where product_id =?";
-    connection.query(query, [product.product_id], (err, results) => {
+    const productId = req.params.id;  // Get product ID from URL params
+
+    var query = "DELETE FROM product WHERE product_id = ?";
+    connection.query(query, [productId], (err, results) => {
         if (!err) {
-            if (results.affectedRows == 0) {
+            if (results.affectedRows === 0) {
                 return res.status(404).json({ message: "Product ID not found" });
             }
             return res.status(200).json({ message: "Product deleted successfully" });
+        } else {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Database error", details: err });
         }
-        else {
-            return res.status(500).json(err);
-        }
-    })
-})
+    });
+});
+
 
 router.patch('/updateStatus',auth.authenticateToken, checkRole.checkRole, (req, res, next) =>{
     let product = req.body;

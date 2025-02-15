@@ -123,7 +123,7 @@ export default function EmployeesPage() {
 
   return (
     <Layout>
-      <div className="min-h-screen flex flex-col items-center py-10 px-4 bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+      <div className="min-h-screen flex flex-col items-center py-10 px-4 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
           Manage Employees
         </h1>
