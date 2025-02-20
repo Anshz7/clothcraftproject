@@ -13,6 +13,7 @@ export default function CategoriesPage() {
   const [newCategory, setNewCategory] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
   const [editedCategoryName, setEditedCategoryName] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // Added search state
 
   useEffect(() => {
     fetchCategories();
@@ -30,6 +31,11 @@ export default function CategoriesPage() {
       console.error("Error fetching categories:", error);
     }
   };
+
+  // Added filtered categories logic
+  const filteredCategories = categories.filter((category) =>
+    category.category_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const addCategory = async () => {
     if (!newCategory.trim()) return;
@@ -104,12 +110,23 @@ export default function CategoriesPage() {
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col items-center py-10 px-4">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
           Manage Categories
         </h1>
 
+        {/* Added Search Bar */}
+        <div className="w-full max-w-md mb-6">
+          <input
+            type="text"
+            placeholder="Search categories..."
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
         {/* Add Category Input */}
-        <div className="mt-6 w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+        <div className="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
           <input
             type="text"
             className="border border-gray-300 dark:border-gray-600 p-2 rounded-lg w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -125,9 +142,9 @@ export default function CategoriesPage() {
           </button>
         </div>
 
-        {/* Category List */}
+        {/* Category List - Updated to use filteredCategories */}
         <div className="mt-6 w-full max-w-md">
-          {categories.map((category) => (
+          {filteredCategories.map((category) => (
             <div
               key={category.category_id}
               className="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-2xl mb-2 shadow-lg"

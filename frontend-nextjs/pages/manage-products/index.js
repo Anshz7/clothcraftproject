@@ -25,6 +25,7 @@ export default function ProductsPage() {
     price: "",
     quantity: "",
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -56,6 +57,21 @@ export default function ProductsPage() {
       console.error("Error fetching categories:", error);
     }
   };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesName = product.product_name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const category = categories.find(
+      (c) => c.category_id === product.category_id
+    );
+    const matchesCategory = category?.category_name
+      ?.toLowerCase()
+      ?.includes(searchQuery.toLowerCase());
+
+    return matchesName || matchesCategory;
+  });
 
   const addProduct = async () => {
     if (!newProduct.product_name.trim() || !newProduct.category_id) return;
@@ -135,6 +151,17 @@ export default function ProductsPage() {
           Manage Products
         </h1>
 
+        {/* Search Bar */}
+        <div className="w-full max-w-2xl mb-6">
+          <input
+            type="text"
+            placeholder="Search products by name or category..."
+            className="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
         {/* Add Product Form */}
         <div className="w-full max-w-2xl mb-8 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -155,9 +182,15 @@ export default function ProductsPage() {
                 setNewProduct({ ...newProduct, category_id: e.target.value })
               }
             >
-              <option value="" className="text-gray-400 dark:text-gray-500">Select Category</option>
+              <option value="" className="text-gray-400 dark:text-gray-500">
+                Select Category
+              </option>
               {categories.map((category) => (
-                <option key={category.category_id} value={category.category_id} className="bg-white dark:bg-gray-800">
+                <option
+                  key={category.category_id}
+                  value={category.category_id}
+                  className="bg-white dark:bg-gray-800"
+                >
                   {category.category_name}
                 </option>
               ))}
@@ -197,15 +230,25 @@ export default function ProductsPage() {
           <table className="w-full border-collapse border border-gray-200 dark:border-gray-700">
             <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
-                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">Name</th>
-                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">Category</th>
-                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">Price</th>
-                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">Quantity</th>
-                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">Actions</th>
+                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">
+                  Name
+                </th>
+                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">
+                  Category
+                </th>
+                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">
+                  Price
+                </th>
+                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">
+                  Quantity
+                </th>
+                <th className="border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 font-semibold">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-900">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <tr
                   key={product.product_id}
                   className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -277,7 +320,9 @@ export default function ProductsPage() {
                   })
                 }
               >
-                <option value="" className="text-gray-400 dark:text-gray-500">Select Category</option>
+                <option value="" className="text-gray-400 dark:text-gray-500">
+                  Select Category
+                </option>
                 {categories.map((category) => (
                   <option
                     key={category.category_id}

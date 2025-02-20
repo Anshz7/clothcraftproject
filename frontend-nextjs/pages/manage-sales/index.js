@@ -243,7 +243,6 @@ export default function SalesPage() {
         </div>
 
         {/* Product Selection */}
-        {/* Product Selection */}
         <div className="w-full max-w-2xl mb-8 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
             Product Selection
@@ -279,7 +278,6 @@ export default function SalesPage() {
             <div className="flex items-center gap-2">
               <input
                 type="number"
-                min="1"
                 className="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200"
                 value={quantity}
                 onChange={(e) =>
@@ -308,13 +306,13 @@ export default function SalesPage() {
                   className="flex justify-between items-center bg-gray-100 dark:bg-gray-800 p-3 rounded-lg"
                 >
                   <div>
-                    <span className="font-medium">{item.product_name}</span>
+                    <span className="font-medium text-gray-800 dark:text-gray-200">{item.product_name}</span>
                     <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
                       x{item.quantity} @ ₹{item.price}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">
+                    <span className="font-medium text-gray-800 dark:text-gray-200">
                       ₹{item.quantity * item.price}
                     </span>
                     <button
