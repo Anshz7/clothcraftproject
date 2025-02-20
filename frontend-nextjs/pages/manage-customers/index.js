@@ -1,0 +1,97 @@
+import { useEffect, useState } from "react";
+import Layout from "@/components/Layout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+export default function CustomersPage() {
+  const [customers, setCustomers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:8080/customer/get", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      setCustomers(data);
+    } catch (error) {
+      console.error("Error fetching customers:", error);
+    }
+  };
+
+  const deleteCustomer = async (customerId) => {
+    const token = localStorage.getItem("token");
+    
+    try {
+      await fetch("http://localhost:8080/customer/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ customer_id: customerId }),
+      });
+
+      fetchCustomers();
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+    }
+  };
+
+  return (
+    <Layout>
+      <div className="min-h-screen flex flex-col items-center py-10 px-4 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+          Manage Customers
+        </h1>
+
+        {/* Customer Table */}
+        <div className="w-full max-w-5xl overflow-x-auto">
+          <table className="w-full border-collapse border border-gray-300 dark:border-gray-600">
+            <thead className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+              <tr>
+                <th className="border border-gray-300 px-4 py-2">ID</th>
+                <th className="border border-gray-300 px-4 py-2">Name</th>
+                <th className="border border-gray-300 px-4 py-2">Email</th>
+                <th className="border border-gray-300 px-4 py-2">Contact Number</th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+              {customers.map((customer) => (
+                <tr key={customer.customer_id}>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {customer.customer_id}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {customer.name}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {customer.email}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {customer.contactNumber}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    <button
+                      onClick={() => deleteCustomer(customer.customer_id)}
+                      className="text-red-500"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Layout>
+  );
+}

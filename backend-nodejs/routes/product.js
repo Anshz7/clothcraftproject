@@ -31,7 +31,7 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
 
 router.get('/getByCategory/:category_id', auth.authenticateToken, (req, res, next) => {
     const category_id = req.params.category_id;
-    var query = "SELECT product_id, product_name FROM product WHERE category_id = ? AND status = 'true'";
+    var query = "SELECT product_id, product_name, price FROM product WHERE category_id = ? AND status = 'true'";
     connection.query(query, [category_id], (err, results) => {
         if (!err) {
             return res.status(200).json(results);
