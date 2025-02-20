@@ -47,7 +47,6 @@ export default function Layout({ children }) {
 
   const employeeLinks = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Manage Customers", path: "/manage-customers" },
     { name: "Manage Products", path: "/manage-products" },
     { name: "Manage Sales", path: "/manage-sales" },
     { name: "View Bill", path: "/view-bill" },

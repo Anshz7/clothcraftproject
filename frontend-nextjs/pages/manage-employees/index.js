@@ -8,7 +8,8 @@ export default function EmployeesPage() {
   const [editEmployee, setEditEmployee] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
-  const [theme, setTheme] = useState("light"); // Assume theme context
+  const [theme, setTheme] = useState("light");
+  const [searchQuery, setSearchQuery] = useState(""); // Added search state
 
   useEffect(() => {
     fetchEmployees();
@@ -31,6 +32,19 @@ export default function EmployeesPage() {
       console.error("Error fetching employees:", error);
     }
   };
+
+  // Added filtered employees logic
+  const filteredEmployees = employees.filter((employee) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      employee.employee_name?.toLowerCase().includes(searchLower) ||
+      employee.employee_phone?.includes(searchQuery) ||
+      employee.salary?.toString().includes(searchQuery) ||
+      employee.join_year?.toString().includes(searchQuery) ||
+      employee.email?.toLowerCase().includes(searchLower) ||
+      (employee.status ? "active" : "inactive").includes(searchLower)
+    );
+  });
 
   const toggleStatus = async (employeeId, currentStatus) => {
     const token = localStorage.getItem("token");
@@ -78,7 +92,7 @@ export default function EmployeesPage() {
     setEditEmployee(employee);
     setFormData({
       ...employee,
-      status: employee.status ? "true" : "false", // Ensure status is a string
+      status: employee.status ? "true" : "false",
     });
     setShowModal(true);
   };
@@ -98,10 +112,10 @@ export default function EmployeesPage() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          employee_id: formData.employee_id, // Ensure employee_id is sent
+          employee_id: formData.employee_id,
           employee_name: formData.employee_name,
           salary: formData.salary,
-          status: formData.status === "true" ? "true" : "false", // Convert to string
+          status: formData.status === "true" ? "true" : "false",
         }),
       });
 
@@ -110,7 +124,7 @@ export default function EmployeesPage() {
       if (response.ok) {
         console.log("Employee Updated Successfully", result);
         setShowModal(false);
-        fetchEmployees(); // Refresh the employee list
+        fetchEmployees();
       } else {
         console.error("Error updating employee:", result);
         alert(result.message || "Error updating employee");
@@ -128,6 +142,17 @@ export default function EmployeesPage() {
           Manage Employees
         </h1>
 
+        {/* Added Search Bar */}
+        <div className="w-full max-w-5xl mb-6">
+          <input
+            type="text"
+            placeholder="Search employees by name, phone, salary, join year, email, or status..."
+            className="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
         {/* Employee Table */}
         <div className="w-full max-w-5xl overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300 dark:border-gray-600">
@@ -137,14 +162,14 @@ export default function EmployeesPage() {
                 <th className="border border-gray-300 px-4 py-2">Name</th>
                 <th className="border border-gray-300 px-4 py-2">Phone</th>
                 <th className="border border-gray-300 px-4 py-2">Salary</th>
-                <th className="border border-gray-300 px-4 py-2">Join Year</th>
+                <th className="border border-gray-300 px-4 py-2">Joining Date</th>
                 <th className="border border-gray-300 px-4 py-2">Email</th>
                 <th className="border border-gray-300 px-4 py-2">Status</th>
                 <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-              {employees.map((employee) => (
+              {filteredEmployees.map((employee) => (
                 <tr
                   key={employee.employee_id}
                   className={`${
@@ -188,13 +213,13 @@ export default function EmployeesPage() {
                   <td className="border border-gray-300 px-4 py-2 flex space-x-2">
                     <button
                       onClick={() => openEditModal(employee)}
-                      className="text-blue-500"
+                      className="text-blue-500 hover:text-blue-700"
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <button
                       onClick={() => deleteEmployee(employee.employee_id)}
-                      className="text-red-500"
+                      className="text-red-500 hover:text-red-700"
                     >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>

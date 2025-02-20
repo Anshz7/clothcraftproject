@@ -4,7 +4,7 @@ const router = express.Router();
 var auth = require('../services/authentication');
 var checkRole = require('../services/checkRole');
 
-router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
+router.post('/add', auth.authenticateToken, (req, res, next) => {
     let product = req.body;
     var query = "insert into product(product_name, category_id, price, quantity, status) values (?, ?, ?, ?, 'true')";
     connection.query(query, [product.product_name, product.category_id, product.price, product.quantity], (err, results) => {
@@ -59,7 +59,7 @@ router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {
 });
 
 
-router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
+router.patch('/update', auth.authenticateToken, (req, res, next) => {
     let product = req.body;
     var query = "update product set product_name =?, category_id =?, price =?, quantity =? where product_id = ?";
     connection.query(query, [product.product_name, product.category_id, product.price, product.quantity, product.product_id], (err, results) => {
@@ -75,7 +75,7 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, 
     })
 })
 
-router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
+router.delete('/delete/:id', auth.authenticateToken,(req, res, next) => {
     const productId = req.params.id;  // Get product ID from URL params
 
     var query = "DELETE FROM product WHERE product_id = ?";
@@ -93,7 +93,7 @@ router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, 
 });
 
 
-router.patch('/updateStatus',auth.authenticateToken, checkRole.checkRole, (req, res, next) =>{
+router.patch('/updateStatus',auth.authenticateToken,(req, res, next) =>{
     let product = req.body;
     var query = "update product set status =? where product_id =?";
     connection.query(query, [product.status, product.product_id], (err, results) => {

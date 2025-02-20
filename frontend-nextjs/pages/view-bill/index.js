@@ -7,6 +7,7 @@ export default function BillsPage() {
   const [bills, setBills] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // Added search state
 
   useEffect(() => {
     fetchBills();
@@ -24,6 +25,19 @@ export default function BillsPage() {
       console.error("Error fetching bills:", error);
     }
   };
+
+  // Added filtered bills logic
+  const filteredBills = bills.filter((bill) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      bill.name?.toLowerCase().includes(searchLower) ||
+      bill.email?.toLowerCase().includes(searchLower) ||
+      bill.contactNumber?.includes(searchQuery) ||
+      bill.paymentMethod?.toLowerCase().includes(searchLower) ||
+      bill.total?.toString().includes(searchQuery) ||
+      bill.createdBy?.toLowerCase().includes(searchLower)
+    );
+  });
 
   const deleteBill = async (billId) => {
     const token = localStorage.getItem("token");
@@ -75,6 +89,17 @@ export default function BillsPage() {
           Manage Bills
         </h1>
 
+        {/* Added Search Bar */}
+        <div className="w-full max-w-5xl mb-6">
+          <input
+            type="text"
+            placeholder="Search bills by name, email, contact, payment method, total or seller..."
+            className="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
         {/* Bills Table */}
         <div className="w-full max-w-5xl overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300 dark:border-gray-600">
@@ -84,17 +109,26 @@ export default function BillsPage() {
                 <th className="border border-gray-300 px-4 py-2">Name</th>
                 <th className="border border-gray-300 px-4 py-2">Email</th>
                 <th className="border border-gray-300 px-4 py-2">Contact</th>
-                <th className="border border-gray-300 px-4 py-2">Payment Method</th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Payment Method
+                </th>
                 <th className="border border-gray-300 px-4 py-2">Total</th>
+                <th className="border border-gray-300 px-4 py-2">Sale By</th>
                 <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-              {bills.map((bill) => (
+              {filteredBills.map((bill) => (
                 <tr key={bill.id}>
-                  <td className="border border-gray-300 px-4 py-2">{bill.id}</td>
-                  <td className="border border-gray-300 px-4 py-2">{bill.name}</td>
-                  <td className="border border-gray-300 px-4 py-2">{bill.email}</td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {bill.id}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {bill.name}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {bill.email}
+                  </td>
                   <td className="border border-gray-300 px-4 py-2">
                     {bill.contactNumber}
                   </td>
@@ -102,7 +136,10 @@ export default function BillsPage() {
                     {bill.paymentMethod}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    ${bill.totalAmount}
+                    ₹{bill.total}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {bill.createdBy}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 space-x-4">
                     <button

@@ -9,6 +9,20 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
+const Toast = ({ message, type, onClose }) => {
+  const bgColor = type === "success" ? "bg-green-500" : "bg-red-500";
+  return (
+    <div
+      className={`fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-4 animate-slide-in`}
+    >
+      <span>{message}</span>
+      <button onClick={onClose} className="text-xl font-bold">
+        &times;
+      </button>
+    </div>
+  );
+};
+
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -26,6 +40,16 @@ export default function ProductsPage() {
     quantity: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+
+  useEffect(() => {
+    if (toast.show) {
+      const timer = setTimeout(() => {
+        setToast({ ...toast, show: false });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   useEffect(() => {
     fetchProducts();
@@ -42,6 +66,11 @@ export default function ProductsPage() {
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setToast({
+        show: true,
+        message: "Failed to fetch products",
+        type: "error",
+      });
     }
   };
 
@@ -55,6 +84,11 @@ export default function ProductsPage() {
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
+      setToast({
+        show: true,
+        message: "Failed to fetch categories",
+        type: "error",
+      });
     }
   };
 
@@ -74,9 +108,16 @@ export default function ProductsPage() {
   });
 
   const addProduct = async () => {
-    if (!newProduct.product_name.trim() || !newProduct.category_id) return;
-    const token = localStorage.getItem("token");
+    if (!newProduct.product_name.trim() || !newProduct.category_id) {
+      setToast({
+        show: true,
+        message: "Please fill all required fields",
+        type: "error",
+      });
+      return;
+    }
 
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch("http://localhost:8080/product/add", {
         method: "POST",
@@ -88,6 +129,11 @@ export default function ProductsPage() {
       });
 
       if (response.ok) {
+        setToast({
+          show: true,
+          message: "Product added successfully",
+          type: "success",
+        });
         setNewProduct({
           product_name: "",
           category_id: "",
@@ -95,17 +141,35 @@ export default function ProductsPage() {
           quantity: "",
         });
         fetchProducts();
+      } else {
+        const errorData = await response.json();
+        setToast({
+          show: true,
+          message: errorData.message || "Failed to add product",
+          type: "error",
+        });
       }
     } catch (error) {
       console.error("Error adding product:", error);
+      setToast({
+        show: true,
+        message: "Failed to add product",
+        type: "error",
+      });
     }
   };
 
   const updateProduct = async (productId) => {
-    if (!editedProduct.product_name.trim() || !editedProduct.category_id)
+    if (!editedProduct.product_name.trim() || !editedProduct.category_id) {
+      setToast({
+        show: true,
+        message: "Please fill all required fields",
+        type: "error",
+      });
       return;
-    const token = localStorage.getItem("token");
+    }
 
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch("http://localhost:8080/product/update", {
         method: "PATCH",
@@ -117,11 +181,28 @@ export default function ProductsPage() {
       });
 
       if (response.ok) {
+        setToast({
+          show: true,
+          message: "Product updated successfully",
+          type: "success",
+        });
         setEditingProduct(null);
         fetchProducts();
+      } else {
+        const errorData = await response.json();
+        setToast({
+          show: true,
+          message: errorData.message || "Failed to update product",
+          type: "error",
+        });
       }
     } catch (error) {
       console.error("Error updating product:", error);
+      setToast({
+        show: true,
+        message: "Failed to update product",
+        type: "error",
+      });
     }
   };
 
@@ -137,15 +218,40 @@ export default function ProductsPage() {
       );
 
       if (response.ok) {
+        setToast({
+          show: true,
+          message: "Product deleted successfully",
+          type: "success",
+        });
         fetchProducts();
+      } else {
+        const errorData = await response.json();
+        setToast({
+          show: true,
+          message: errorData.message || "Failed to delete product",
+          type: "error",
+        });
       }
     } catch (error) {
       console.error("Error deleting product:", error);
+      setToast({
+        show: true,
+        message: "Failed to delete product",
+        type: "error",
+      });
     }
   };
 
   return (
     <Layout>
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
+
       <div className="min-h-screen flex flex-col items-center py-10 px-4 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
           Manage Products
