@@ -57,7 +57,7 @@ export default function BillsPage() {
   const handleViewPdf = async (bill) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sale/getPdf"`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sale/getPdf`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
