@@ -95,7 +95,7 @@ export default function SalesPage() {
   const fetchCustomers = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/customer/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -108,7 +108,7 @@ export default function SalesPage() {
   const fetchCategories = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/category/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -127,7 +127,7 @@ export default function SalesPage() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/product/getByCategory/${categoryId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/product/getByCategory/${categoryId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await response.json();
@@ -218,7 +218,7 @@ export default function SalesPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/sale/generateReport",
+        `${process.env.NEXT_PUBLIC_API_URL}/sale/generateReport`,
         {
           method: "POST",
           headers: {

@@ -18,7 +18,7 @@ export default function EmployeesPage() {
   const fetchEmployees = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/employee/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       let data = await response.json();
@@ -51,7 +51,7 @@ export default function EmployeesPage() {
     const newStatus = !currentStatus;
 
     try {
-      await fetch("http://localhost:8080/employee/update", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export default function EmployeesPage() {
     const token = localStorage.getItem("token");
 
     try {
-      await fetch("http://localhost:8080/employee/delete", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee/delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +105,7 @@ export default function EmployeesPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8080/employee/update", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

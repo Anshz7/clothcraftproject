@@ -59,7 +59,7 @@ export default function ProductsPage() {
   const fetchProducts = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/product/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -77,7 +77,7 @@ export default function ProductsPage() {
   const fetchCategories = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/category/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -119,7 +119,7 @@ export default function ProductsPage() {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/product/add", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +171,7 @@ export default function ProductsPage() {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/product/update", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -210,7 +210,7 @@ export default function ProductsPage() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/product/delete/${productId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/product/delete/${productId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

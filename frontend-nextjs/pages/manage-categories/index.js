@@ -22,7 +22,7 @@ export default function CategoriesPage() {
   const fetchCategories = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/category/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -42,7 +42,7 @@ export default function CategoriesPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8080/category/add", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export default function CategoriesPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8080/category/update", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export default function CategoriesPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8080/category/delete", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

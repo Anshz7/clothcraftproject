@@ -16,7 +16,7 @@ export default function CustomersPage() {
   const fetchCustomers = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/customer/get", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -40,7 +40,7 @@ export default function CustomersPage() {
     const token = localStorage.getItem("token");
 
     try {
-      await fetch("http://localhost:8080/customer/delete", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer/delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

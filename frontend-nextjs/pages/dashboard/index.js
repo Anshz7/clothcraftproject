@@ -21,7 +21,7 @@ export default function Dashboard() {
       return;
     }
 
-    fetch("http://localhost:8080/dashboard/details", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/details`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())

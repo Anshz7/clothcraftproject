@@ -16,7 +16,7 @@ export default function BillsPage() {
   const fetchBills = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/sale/getBills", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sale/getBills`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -42,7 +42,7 @@ export default function BillsPage() {
   const deleteBill = async (billId) => {
     const token = localStorage.getItem("token");
     try {
-      await fetch(`http://localhost:8080/sale/delete/${billId}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sale/delete/${billId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ export default function BillsPage() {
   const handleViewPdf = async (bill) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/sale/getPdf", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sale/getPdf"`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

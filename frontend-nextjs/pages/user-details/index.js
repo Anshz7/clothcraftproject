@@ -22,7 +22,7 @@ export default function ProfilePage() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        "http://localhost:8080/employee/getCurrent",
+        `${process.env.NEXT_PUBLIC_API_URL}/employee/getCurrent`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -63,7 +63,7 @@ export default function ProfilePage() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        "http://localhost:8080/employee/changePassword",
+        `${process.env.NEXT_PUBLIC_API_URL}/employee/changePassword`,
         {
           method: "POST",
           headers: {
