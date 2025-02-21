@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,20 +15,43 @@ export default function Layout({ children }) {
   const [role, setRole] = useState(null);
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
+  const userMenuButtonRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const payloadBase64 = token.split(".")[1]; // Extract the payload
-        const decodedPayload = atob(payloadBase64); // Decode Base64
-        const payload = JSON.parse(decodedPayload); // Parse the JSON
-        setRole(payload.role); // Set the role
+        const payloadBase64 = token.split(".")[1];
+        const decodedPayload = atob(payloadBase64);
+        const payload = JSON.parse(decodedPayload);
+        setRole(payload.role);
       } catch (error) {
         console.error("Error decoding token:", error);
       }
     }
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        userMenuButtonRef.current &&
+        userMenuRef.current &&
+        !userMenuButtonRef.current.contains(event.target) &&
+        !userMenuRef.current.contains(event.target)
+      ) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -106,6 +129,7 @@ export default function Layout({ children }) {
             {/* User Menu */}
             <div className="relative">
               <button
+                ref={userMenuButtonRef}
                 className="p-2 text-gray-900 dark:text-white"
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 aria-expanded={isUserMenuOpen}
@@ -114,7 +138,10 @@ export default function Layout({ children }) {
                 <FontAwesomeIcon icon={faUser} />
               </button>
               {isUserMenuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-10">
+                <div
+                  ref={userMenuRef}
+                  className="absolute right-0 mt-2 w-40 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg z-10"
+                >
                   <button
                     onClick={() => router.push("/user-details")}
                     className="block w-full text-left px-4 py-2 text-gray-900 dark:text-gray-200 hover:bg-stone-300 dark:hover:bg-gray-700"

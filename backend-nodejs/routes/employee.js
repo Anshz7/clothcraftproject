@@ -232,4 +232,19 @@ router.post("/changePassword", auth.authenticateToken, (req, res) => {
   });
 });
 
+router.get("/getCurrent", auth.authenticateToken, (req, res) => {
+  const email = res.locals.email;
+  var query = "select employee_id, employee_name, employee_phone, join_year, email, salary, status from employee where email = ?";
+  connection.query(query, [email], (err, results) => {
+    if (!err) {
+      if (results.length <= 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      return res.status(200).json(results[0]);
+    } else {
+      return res.status(500).json(err);
+    }
+  });
+});
+
 module.exports = router;
